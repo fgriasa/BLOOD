@@ -1,0 +1,5 @@
+{
+  "name": "Rice & Glucose Simulator",
+  "description": "An interactive educational tool visualizing the impact of white rice consumption on blood sugar levels.",
+  "requestFramePermissions": []
+}
