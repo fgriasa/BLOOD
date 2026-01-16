@@ -19,7 +19,6 @@ interface GlucoseChartProps {
 
 const GlucoseChart: React.FC<GlucoseChartProps> = ({ scenario }) => {
   
-  // Determine color based on risk level for the chart line
   const getLineColor = () => {
     switch (scenario.risk.level) {
       case 'severe': return '#ef4444'; // red-500
@@ -32,14 +31,17 @@ const GlucoseChart: React.FC<GlucoseChartProps> = ({ scenario }) => {
   const lineColor = getLineColor();
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative h-[400px]">
-      <h3 className="text-lg font-bold mb-4 text-slate-800 ml-2">餐後 4 小時血糖變化圖</h3>
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 relative h-full flex flex-col">
+      <div className="flex justify-between items-center mb-2">
+        <h3 className="text-sm font-bold text-slate-800">餐後 4 小時血糖變化</h3>
+        <span className="text-[10px] text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">mg/dL</span>
+      </div>
       
-      <div className="h-[320px] w-full">
+      <div className="flex-1 w-full min-h-[220px]">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={scenario.data}
-            margin={{ top: 20, right: 30, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
@@ -54,39 +56,40 @@ const GlucoseChart: React.FC<GlucoseChartProps> = ({ scenario }) => {
                 dataKey="time" 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#64748b', fontSize: 12 }}
-                dy={10}
+                tick={{ fill: '#94a3b8', fontSize: 10 }}
+                dy={5}
+                interval="preserveStartEnd"
             />
             
             <YAxis 
-                domain={[60, 250]} 
+                domain={[60, 'auto']} 
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#64748b', fontSize: 12 }}
-                label={{ value: '血糖 (mg/dL)', angle: -90, position: 'insideLeft', fill: '#94a3b8', fontSize: 12 }}
+                tick={{ fill: '#94a3b8', fontSize: 10 }}
             />
             
             <Tooltip 
                 contentStyle={{ 
-                    borderRadius: '12px', 
+                    borderRadius: '8px', 
                     border: 'none', 
                     boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                    backgroundColor: 'rgba(255, 255, 255, 0.95)'
+                    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                    fontSize: '12px',
+                    padding: '8px'
                 }}
-                labelStyle={{ color: '#64748b', marginBottom: '4px' }}
-                itemStyle={{ color: '#334155', fontWeight: 600 }}
             />
             
             {/* Danger Zone Reference */}
             <ReferenceLine 
                 y={140} 
                 stroke="#ef4444" 
-                strokeDasharray="5 5" 
+                strokeDasharray="3 3" 
                 label={{ 
-                    value: "血管受損警戒線 (140)", 
+                    value: "140 警戒線", 
                     position: "insideTopRight", 
                     fill: "#ef4444", 
-                    fontSize: 11 
+                    fontSize: 10,
+                    opacity: 0.8
                 }} 
             />
 
@@ -103,9 +106,9 @@ const GlucoseChart: React.FC<GlucoseChartProps> = ({ scenario }) => {
                 dataKey="value" 
                 stroke={lineColor} 
                 strokeWidth={3} 
-                dot={{ r: 4, fill: 'white', stroke: lineColor, strokeWidth: 2 }}
-                activeDot={{ r: 6 }}
-                animationDuration={1000}
+                dot={{ r: 3, fill: 'white', stroke: lineColor, strokeWidth: 2 }}
+                activeDot={{ r: 5 }}
+                animationDuration={800}
             />
           </ComposedChart>
         </ResponsiveContainer>

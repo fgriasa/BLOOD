@@ -11,50 +11,50 @@ const App: React.FC = () => {
   const currentScenario = SCENARIOS[selectedScenarioId];
 
   return (
-    <div className="min-h-screen pb-12">
-      {/* Sticky Navbar */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl filter drop-shadow-sm">🍽️</span>
-            <div>
-                <h1 className="text-lg md:text-xl font-bold text-slate-800 leading-tight">血糖飆升模擬器</h1>
-                <p className="text-xs text-slate-500 hidden md:block">台灣常見飲食 vs 血糖變化視覺化</p>
-            </div>
+    <div className="min-h-screen bg-slate-50 pb-10 font-sans">
+      {/* Compact Navbar */}
+      <nav className="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div className="max-w-md mx-auto px-4 py-3 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="text-xl">🍽️</span>
+            <h1 className="text-base font-bold text-slate-800">血糖模擬器</h1>
           </div>
-          <div className="text-xs text-slate-500 bg-slate-100 px-3 py-1.5 rounded-full font-medium border border-slate-200">
-            僅供衛教參考
+          <div className="text-[10px] text-slate-400 border border-slate-200 px-2 py-0.5 rounded-full">
+            衛教用
           </div>
         </div>
       </nav>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+      {/* Main Content: Single Column centered on mobile, max-w-md mimicking app view */}
+      <main className="max-w-md mx-auto px-3 py-4 space-y-4">
         
-        {/* Top Section: Interaction & Visualization Side-by-Side */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          {/* Left: Input (Food Selector) */}
-          <div className="lg:col-span-4 h-[500px] lg:h-auto">
+        {/* 1. Food Selector (Sticky-ish or Top priority) */}
+        <section>
             <FoodSelector 
               selectedId={selectedScenarioId} 
               onSelect={setSelectedScenarioId} 
             />
-          </div>
+        </section>
 
-          {/* Right: Output (Chart) */}
-          <div className="lg:col-span-8 flex flex-col h-full min-h-[400px]">
+        {/* 2. Chart Section */}
+        <section className="h-[280px]">
              <GlucoseChart scenario={currentScenario} />
-          </div>
-        </div>
+        </section>
 
-        {/* Middle Section: Stats Summary */}
-        <StatsPanel scenario={currentScenario} />
+        {/* 3. Stats Compact Row */}
+        <section>
+            <StatsPanel scenario={currentScenario} />
+        </section>
 
-        {/* Bottom Section: Analysis & Info */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* 4. Suggestion Box (Highlight) */}
+        <section>
            <SuggestionBox text={currentScenario.suggestion} />
+        </section>
+
+        {/* 5. Details (Scroll to see) */}
+        <section>
            <InfoSection />
-        </div>
+        </section>
 
       </main>
     </div>
