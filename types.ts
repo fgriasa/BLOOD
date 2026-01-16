@@ -13,10 +13,11 @@ export interface GlucoseDataPoint {
   }
   
   export interface SimulationScenario {
-    id: number; // Represents bowl count: 0.5, 1, 1.5, 2
+    id: string; // Changed from number to string for generic IDs
+    category: 'rice' | 'noodle' | 'drink' | 'dessert' | 'bread' | 'pastry';
     label: string;
     subLabel: string;
-    iconCount: number; // How many rice bowl icons to show
+    icon: string; // Emoji or icon component identifier
     data: GlucoseDataPoint[];
     peakValue: number;
     durationHigh: number; // Minutes above 140 mg/dL
